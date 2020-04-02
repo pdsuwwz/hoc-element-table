@@ -12,6 +12,9 @@
     "type": "git",
     "url": "git+https://github.com/pdsuwwz/hoc-element-table.git"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "vue": "^2.5.17"
   },
