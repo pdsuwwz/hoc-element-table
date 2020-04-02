@@ -1,8 +1,8 @@
 {
-  "name": "hoc-element-table",
+  "name": "@hoc-element/table",
   "version": "0.0.1",
   "main": "lib/hoc-el-table.js",
-  "description": "基于 element-ui 库的二次封装，主要包含配置化的 table 表格及 form 表单中的 rules 校验等场景，旨在减少重复的操作，让开发变得更简单。",
+  "description": "基于 element-ui 库中 table 做的二次封装，通过配置化的方式即生成 `table` 表格, 实现更高的自由度，旨在减少重复的操作，让开发变得更简单。",
   "author": "Wisdom <pdsu.wwz@foxmail.com>",
   "license": "MIT",
   "scripts": {
@@ -65,8 +65,6 @@
     "vue",
     "element-ui",
     "table",
-    "affix",
-    "upload",
     "hoc",
     "高阶组件",
     "组件化",
