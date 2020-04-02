@@ -1,0 +1,75 @@
+{
+  "name": "hoc-element-table",
+  "version": "0.1.0",
+  "main": "lib/hoc-el-table.js",
+  "description": "基于 element-ui 库的二次封装，主要包含配置化的 table 表格及 form 表单中的 rules 校验等场景，旨在减少重复的操作，让开发变得更简单。",
+  "author": "Wisdom <pdsu.wwz@foxmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "NODE_ENV=production webpack --progress --colors --hide-modules"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pdsuwwz/hoc-element-table.git"
+  },
+  "dependencies": {
+    "vue": "^2.5.17"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-decorators": "^7.1.2",
+    "@babel/plugin-proposal-export-default-from": "^7.0.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
+    "@babel/plugin-proposal-function-sent": "^7.0.0",
+    "@babel/plugin-proposal-json-strings": "^7.0.0",
+    "@babel/plugin-proposal-numeric-separator": "^7.0.0",
+    "@babel/plugin-proposal-throw-expressions": "^7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-syntax-import-meta": "^7.0.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.1.0",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/runtime": "^7.1.2",
+    "@babel/runtime-corejs2": "^7.1.2",
+    "babel-eslint": "^10.0.3",
+    "babel-loader": "8.0.0",
+    "cross-env": "^5.0.5",
+    "css-loader": "^0.28.7",
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-loader": "^3.0.3",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-vue": "^6.1.2",
+    "file-loader": "^1.1.4",
+    "friendly-errors-webpack-plugin": "^1.7.0",
+    "node-notifier": "^6.0.0",
+    "node-sass": "^4.5.3",
+    "sass-loader": "^6.0.6",
+    "vue-loader": "^15.8.3",
+    "vue-template-compiler": "^2.4.4",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "keywords": [
+    "vue",
+    "element-ui",
+    "table",
+    "affix",
+    "upload",
+    "hoc",
+    "高阶组件",
+    "组件化",
+    "表格"
+  ]
+}
