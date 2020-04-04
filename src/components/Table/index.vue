@@ -130,18 +130,23 @@ export default {
     },
     getValue (scope, configItem) {
       const prop = configItem.attrs.prop
+
       const renderName = this.getMatchRenderFunction(configItem)
       const renderObj = this.renderTypeList[renderName]
+
       if (renderObj && this.isFunction(configItem[renderName])) {
         return renderObj.target
           ? this.getRenderValue(scope, configItem, { name: renderName, type: 'bind' })
           : this.getRenderValue(scope, configItem)
       }
+
       return scope.row[prop]
     },
     getRenderValue (scope, item, fn = { name: 'render', type: 'call' }) {
       const prop = item.attrs.prop
-      const args = (prop && scope.row[prop]) || scope.row
+
+      const args = (prop !== undefined && scope.row[prop]) || scope.row
+
       return item[fn.name][fn.type](this.getParent, args)
     },
     // 匹配 render 开头的函数
