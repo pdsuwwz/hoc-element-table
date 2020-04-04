@@ -21,6 +21,7 @@
         :data="source.data"
         style="width: 100%"
         v-loading="loading"
+        v-bind="$attrs"
       >
         <el-table-column
           v-for="(item, index) in config"
