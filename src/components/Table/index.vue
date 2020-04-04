@@ -145,7 +145,8 @@ export default {
     getRenderValue (scope, item, fn = { name: 'render', type: 'call' }) {
       const prop = item.attrs.prop
 
-      const args = (prop !== undefined && scope.row[prop]) || scope.row
+      const propValue = prop && scope.row[prop]
+      const args = propValue !== undefined ? propValue : scope.row
 
       return item[fn.name][fn.type](this.getParent, args)
     },
