@@ -33,7 +33,6 @@ export default {
     }
   },
   created () {
-    // TODO: 可优化
     this.$options.components = this.parent.$options.components
   }
 }
