@@ -7,7 +7,7 @@
       <div class="header-actions">
         <div class="overflow-box">
           <el-button
-            v-for="(item, index) in actionList.filter(it => it.text)"
+            v-for="(item, index) in getActionList"
             :key="index"
             type="primary"
             size="small"
@@ -25,7 +25,7 @@
       </div>
 
       <el-table
-        :data="source.data"
+        :data="source"
         style="width: 100%"
         v-loading="loading"
         v-bind="$attrs"
@@ -57,9 +57,9 @@
         <el-pagination
           background
           layout="total, sizes, prev, pager, next ,jumper"
-          :current-page="pagination.currentPage"
-          :page-size="pagination.perPage"
-          :total="pagination.total"
+          :current-page="getPagination.currentPage"
+          :page-size="getPagination.pageSize"
+          :total="getPagination.total"
           @size-change="handleSizeChange"
           @current-change="handlePageChange"
         />
@@ -81,7 +81,7 @@ export default {
     ComponentsMapping
   },
   props: {
-    paginationFilter: {
+    filterParams: {
       type: Object,
       default () {
         return {}
@@ -96,6 +96,13 @@ export default {
       default: ''
     },
     source: {
+      type: Array,
+      required: true,
+      default () {
+        return []
+      }
+    },
+    pagination: {
       type: Object,
       default () {
         return {}
@@ -107,7 +114,6 @@ export default {
         return []
       }
     },
-    // TODO: header中按钮处理逻辑优化
     actionList: {
       type: Array,
       default () {
@@ -119,7 +125,6 @@ export default {
   },
   data () {
     return {
-      pagination: {},
       renderTypeList: {
         render: {},
         renderHTML: {
@@ -173,10 +178,10 @@ export default {
       return isFunction(fn)
     },
     handlePageChange (val) {
-      this.$emit('getList', Object.assign(this.paginationFilter, { page: val }))
+      this.$emit('getList', Object.assign(this.filterParams, { page: val }))
     },
     handleSizeChange (val) {
-      this.$emit('getList', Object.assign(this.paginationFilter, { pageSize: val }))
+      this.$emit('getList', Object.assign(this.filterParams, { pageSize: val }))
     },
     getHeaderActions (item) {
       return {
@@ -187,16 +192,17 @@ export default {
   computed: {
     getParent () {
       return this.$parent
-    }
-  },
-  watch: {
-    source: {
-      handler () {
-        if (this.source.meta) {
-          this.pagination = this.source.meta.pagination
-        }
-      },
-      deep: true
+    },
+    getPagination () {
+      const params = {
+        currentPage: 1,
+        pageSize: 10,
+        total: 0
+      }
+      return Object.assign({}, params, this.pagination)
+    },
+    getActionList () {
+      return this.actionList.reverse().filter(it => it.text)
     }
   }
 }
