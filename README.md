@@ -45,21 +45,21 @@ Vue.use(HocElementTable)
     <div class="content">
       <hoc-el-table
         title="表格Demo"
-        :source="sourceList"
+        :source="sourceList.data"
+        :pagination="sourceList.pagination"
         :config="config"
         :loading="loading"
         :border="border"
         :height="tableHeight"
         :action-list="[
-          { text: '固定最右则列', action: () => setFixedRight() },
           { text: '固定表头', action: () => setFixedRow() },
-          { text: '添加边框', action: () => setBorder() },
-          { text: '居中表头label', action: () => setLabelCenter() }
+          { text: '固定最右则列', action: () => setFixedRight() },
+          { text: '居中表头label', action: () => setLabelCenter() },
+          { text: '添加边框', action: () => setBorder() }
         ]"
         @getList="getList"
       >
       </hoc-el-table>
-
     </div>
   </div>
 </template>
@@ -153,14 +153,10 @@ export default {
           { id: 1, name: '王小虎2', isForbid: false },
           { id: 2, name: '王小虎3', isForbid: false }
         ],
-        meta: {
-          pagination: {
-            total: 3,
-            count: 10,
-            perPage: 10,
-            currentPage: 1,
-            totalPages: 1
-          }
+        pagination: {
+          total: 3,
+          pageSize: 10,
+          currentPage: 1
         }
       }
     },
@@ -263,7 +259,7 @@ export default {
                   this.setPublish(row)
                 }
               },
-              row.isForbid ? {
+              !row.isForbid ? {
                 attrs: {
                   label: '禁用',
                   type: 'text',
