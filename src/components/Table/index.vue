@@ -36,7 +36,7 @@
           :key="index"
           v-bind="getAttrsValue(item)"
         >
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <div v-if="isFunction(getValue(scope, item))">
               <component
                 :cellList="getValue(scope, item)()"
