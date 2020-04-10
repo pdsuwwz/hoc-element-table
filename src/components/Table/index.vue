@@ -218,11 +218,11 @@ export default {
     padding-bottom: 20px;
     .header-actions {
       flex: 1;
-      overflow: scroll;
+      overflow-x: auto;
       .overflow-box {
         display: flex;
         flex-direction: row-reverse;
-        overflow: scroll;
+        overflow-x: auto;
         white-space: nowrap;
         /deep/ .el-button:nth-child(1) {
           margin-left: 10px;
