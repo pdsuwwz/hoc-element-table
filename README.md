@@ -8,8 +8,7 @@
 
 ## Environment Support
 
-* Vue 2.5.17
-* ElementUI 2.11.1
+* Vue 2.6.0+
 
 ## Install
 
