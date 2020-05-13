@@ -163,6 +163,9 @@ export default {
       const prop = item.attrs.prop
 
       const propValue = prop && scope.row[prop]
+
+      this.$set(scope.row, '$index', scope.$index)
+
       const args = propValue !== undefined ? propValue : scope.row
 
       return item[fn.name][fn.type](this.getParent, args)
