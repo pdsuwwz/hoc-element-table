@@ -14,6 +14,10 @@
 
 ```shell
 npm install @hoc-element/table
+
+# or
+
+yarn add @hoc-element/table
 ```
 
 ## Quick Start
@@ -27,7 +31,17 @@ import HocElementTable from '@hoc-element/table'
 Vue.use(HocElementTable)
 ```
 
-## Using
+## Feature
+
+- [x] 表格快速配置
+- [x] 支持分页
+- [x] 支持自定义 prop 列名
+- [x] 支持单元格内容自定义渲染 【见 [单元格渲染配置说明](##单元格渲染配置说明)】
+- [x] 支持自定义单元格 style 样式
+- [x] 支持绑定自定义指令
+- [x] 支持绑定 element-ui 原生 Table 的 Events 和 Methods
+
+## 单元格渲染配置说明
 
 | 方法 | 说明 | 场景 |
 | -------- | -------- | -------- |
@@ -38,11 +52,14 @@ Vue.use(HocElementTable)
 
 ## Example
 
+下面是比较全的例子，几乎囊括了 API 的所有用法，源码戳这： [Code](https://github.com/pdsuwwz/vue-cli-app/tree/pages-hoc-element-table)
+
 ```html
 <template>
   <div class="box-container">
     <div class="content">
       <hoc-el-table
+        ref="singleTable"
         title="表格Demo"
         :source="sourceList.data"
         :pagination="sourceList.pagination"
@@ -50,99 +67,51 @@ Vue.use(HocElementTable)
         :loading="loading"
         :border="border"
         :height="tableHeight"
+        highlight-current-row
+        :table-events="{
+          'row-click': handleRowClick
+        }"
         :action-list="[
           { text: '固定表头', action: () => setFixedRow() },
           { text: '固定最右则列', action: () => setFixedRight() },
           { text: '居中表头label', action: () => setLabelCenter() },
-          { text: '添加边框', action: () => setBorder() }
+          { text: '添加边框', action: () => setBorder() },
+          { text: '高亮选中第0行', action: () => setCurrentRow(0) },
+          { text: '高亮选中第1行', action: () => setCurrentRow(1) },
+          { text: '取消选中行', action: () => setCurrentRow() }
         ]"
         @getList="getList"
-      >
-      </hoc-el-table>
+      />
     </div>
   </div>
 </template>
 
 <script>
+/* eslint-disable vue/no-unused-components */
 
 import TableChildrenA from './table-children-a'
 import TableChildrenB from './table-children-b'
+
+// 自行封装的 “复制” 指令
+import { clipboard } from '@/directive/clipboard'
 
 export default {
   components: {
     TableChildrenA,
     TableChildrenB
   },
-  methods: {
-    sleep (time = 1000) {
-      return new Promise((resolve) => setTimeout(resolve, time))
-    },
-    async getList () {
-      this.loading = true
-      await this.sleep()
-      this.loading = false
-    },
-    setFixedRight () {
-      if (!this.fixedRight) {
-        this.fixedRight = 'right'
-      } else {
-        this.fixedRight = false
-      }
-    },
-    setFixedRow () {
-      if (!this.tableHeight) {
-        this.tableHeight = '350'
-      } else {
-        this.tableHeight = ''
-      }
-    },
-    setLabelCenter () {
-      if (!this.align) {
-        this.align = 'center'
-      } else {
-        this.align = ''
-      }
-    },
-    setBorder () {
-      this.border = !this.border
-    },
-    setPublish (row) {
-      this.$confirm(`此操作会将${row.name}发布到线上, 是否继续?`, `编号${row.id}提示`, {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '发布成功!'
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消发布'
-        })
-      })
-    },
-    async setForbid (row) {
-      this.loading = true
-      await this.sleep()
-      this.loading = false
-      row.isForbid = !row.isForbid
-    }
+  directives: {
+    clipboard
   },
   data () {
     return {
       loading: false,
       fixedRight: 'right',
       align: 'center',
-      tableHeight: '350',
-      border: false,
+      tableHeight: null,
+      border: true,
       sourceList: {}
     }
-  },
-  async created () {
-    await this.getList()
-    this.sourceList = this.mockData
   },
   computed: {
     mockData () {
@@ -150,7 +119,8 @@ export default {
         data: [
           { id: 0, name: '王小虎1', isForbid: false },
           { id: 1, name: '王小虎2', isForbid: false },
-          { id: 2, name: '王小虎3', isForbid: false }
+          { id: 2, name: '王小虎3', isForbid: false },
+          { id: 3, name: '王小虎4', isForbid: false }
         ],
         pagination: {
           total: 3,
@@ -199,7 +169,9 @@ export default {
           // 渲染组件，返回值为一个数组， data 作为组件的 v-model，适用于需要展示复杂的数据的场景
           renderComponent (row) {
             return [
-              { name: 'TableChildrenA', data: row }
+              { name: 'TableChildrenA', data: row },
+              { name: 'el-input', data: row.name },
+              { name: 'el-rate', data: row.id }
             ]
           }
         },
@@ -283,11 +255,113 @@ export default {
                 click () {
                   this.setForbid(row)
                 }
+              },
+              {
+                attrs: {
+                  label: '指令测试-复制链接',
+                  type: 'primary',
+                  size: 'medium',
+                  // 为简便起见，这里引入了 clipboard 库，请注意
+                  directives: [
+                    {
+                      name: 'clipboard',
+                      value: `https://github.com/pdsuwwz/hoc-element-table`,
+                      arg: 'copy'
+                    }
+                  ]
+                },
+                el: 'button',
+                click () {
+                  this.copyLink(row)
+                }
               }
             ]
           }
         }
       ]
+    }
+  },
+  async created () {
+    await this.getList()
+  },
+  methods: {
+    sleep (time = 1000) {
+      return new Promise((resolve) => setTimeout(resolve, time))
+    },
+    async getList () {
+      this.loading = true
+
+      await this.sleep()
+
+      this.sourceList = this.mockData
+      this.loading = false
+    },
+    setFixedRight () {
+      if (!this.fixedRight) {
+        this.fixedRight = 'right'
+      } else {
+        this.fixedRight = false
+      }
+    },
+    setFixedRow () {
+      if (!this.tableHeight) {
+        this.tableHeight = '350'
+      } else {
+        this.tableHeight = ''
+      }
+    },
+    setLabelCenter () {
+      if (!this.align) {
+        this.align = 'center'
+      } else {
+        this.align = ''
+      }
+    },
+    setBorder () {
+      this.border = !this.border
+    },
+    handleRowClick (row, column, cell) {
+      this.$message({
+        dangerouslyUseHTMLString: true, // Be careful :)
+        message: `row-click 事件，单击了<span style="color: red;"> 第${row.$index}行 </span>请看控制台 log`
+      })
+      console.log('回调参数分别为: row, column, cell')
+      console.log(row, column, cell)
+    },
+    setCurrentRow (rowNumber) {
+      const singleTable = this.$refs.singleTable
+      const hocElTable = singleTable.$refs.hocElTable
+      let row = rowNumber !== undefined ? this.sourceList.data[rowNumber] : ''
+      hocElTable.setCurrentRow(row)
+    },
+    setPublish (row) {
+      this.$confirm(`此操作会将${row.name}发布到线上, 是否继续?`, `编号${row.id}提示`, {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '发布成功!'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消发布'
+        })
+      })
+    },
+    async setForbid (row) {
+      this.loading = true
+      await this.sleep()
+      this.loading = false
+      row.isForbid = !row.isForbid
+    },
+    copyLink (row) {
+      this.$message({
+        type: 'success',
+        message: '指令测试-复制成功，可以粘贴啦！'
+      })
     }
   }
 }

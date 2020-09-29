@@ -25,10 +25,12 @@
       </div>
 
       <el-table
+        ref="hocElTable"
         :data="source"
         style="width: 100%"
         v-loading="loading"
         v-bind="$attrs"
+        v-on="tableEvents"
       >
 
         <el-table-column
@@ -120,6 +122,12 @@ export default {
         return [
           { text: '', action: () => {} }
         ]
+      }
+    },
+    tableEvents: {
+      type: Object,
+      default () {
+        return {}
       }
     }
   },
