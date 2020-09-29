@@ -30,7 +30,7 @@
         style="width: 100%"
         v-loading="loading"
         v-bind="$attrs"
-        v-on="table-events"
+        v-on="tableEvents"
       >
 
         <el-table-column
