@@ -265,7 +265,7 @@ export default {
                   directives: [
                     {
                       name: 'clipboard',
-                      value: `https://github.com/pdsuwwz/hoc-element-table`,
+                      value: JSON.stringify(row),
                       arg: 'copy'
                     }
                   ]
