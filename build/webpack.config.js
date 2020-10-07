@@ -5,14 +5,14 @@ const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 const notifier = require('node-notifier')
 
 function resolve (dir) {
-  return path.join(__dirname, '.', dir)
+  return path.join(process.cwd(), dir)
 }
 
 module.exports = {
   mode: 'production',
   entry: './src/main.js',
   output: {
-    path: path.resolve(__dirname, './lib'),
+    path: resolve('./lib'),
     publicPath: '/lib/',
     filename: 'hoc-el-table.js',
     libraryTarget: 'umd'
@@ -69,12 +69,21 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            extends: resolve('babelrc.js')
+            extends: resolve('babel.config.js')
           }
         }
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.(svg|otf|ttf|woff?|eot|gif|png|jpe?g)(\?\S*)?$/,
+        loader: 'url-loader',
+        exclude: /node_modules/,
+        query: {
+          limit: 10000,
+          name: '[name].[hash:7].[ext]'
+        }
+      },
+      {
+        test: /\.(png|jpg|gif|eot|woff|ttf|svg|webp|PNG)(\?\S*)?$/,
         loader: 'file-loader',
         options: {
           name: '[name].[ext]?[hash]'
