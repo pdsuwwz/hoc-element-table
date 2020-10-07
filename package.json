@@ -1,6 +1,6 @@
 {
   "name": "@hoc-element/table",
-  "version": "0.1.0",
+  "version": "0.2.4",
   "main": "lib/hoc-el-table.js",
   "description": "二次封装了 element-ui 库中的 table，通过配置文件的方式即可生成 table 表格, 实现更高的自由度，旨在减少重复的操作，让开发变得更简单。",
   "author": "Wisdom <pdsu.wwz@foxmail.com>",
@@ -16,7 +16,7 @@
     "access": "public"
   },
   "dependencies": {
-    "vue": "^2.5.17"
+    "vue": "^2.6.11"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
@@ -55,7 +55,7 @@
     "node-sass": "^4.5.3",
     "sass-loader": "^6.0.6",
     "vue-loader": "^15.8.3",
-    "vue-template-compiler": "^2.4.4",
+    "vue-template-compiler": "^2.6.11",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10"
   },

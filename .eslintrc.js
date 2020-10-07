@@ -34,7 +34,8 @@ const eslintConfig = {
     "no-unused-vars": 1,
     "no-debugger": 1,
     "no-console": 1,
-    'no-useless-constructor': "off"
+    'no-useless-constructor': "off",
+    "vue/no-side-effects-in-computed-properties": 0
   }
 };
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <component
-      v-for="(item, index) in cellList"
+      v-for="(item, index) in getCellList"
       :is="item.name"
       :key="index"
       :row="row"
@@ -32,8 +32,13 @@ export default {
       }
     }
   },
+  data () {
+    return {
+      // fix:  https://github.com/pdsuwwz/hoc-element-table/issues/8
+      getCellList: this.cellList
+    }
+  },
   created () {
-    // TODO: 可优化
     this.$options.components = this.parent.$options.components
   }
 }

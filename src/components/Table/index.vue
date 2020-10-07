@@ -1,34 +1,44 @@
 <template>
   <div class="table-list-container">
+
     <header class="header">
       <h2>{{ title }}</h2>
+
       <div class="header-actions">
-        <el-button
-          v-for="(item, index) in actionList.filter(it => it.text)"
-          :key="index"
-          type="primary"
-          size="small"
-          v-bind="getHeaderActions(item)"
-          @click="item.action"
-        >{{ item.text }}</el-button>
+        <div class="overflow-box">
+          <el-button
+            v-for="(item, index) in getActionList"
+            :key="index"
+            type="primary"
+            size="small"
+            v-bind="getHeaderActions(item)"
+            @click="item.action"
+          >{{ item.text }}</el-button>
+        </div>
       </div>
     </header>
+
     <el-card>
+
       <div class="filter-form-container">
         <slot/>
       </div>
+
       <el-table
-        :data="source.data"
+        ref="hocElTable"
+        :data="source"
         style="width: 100%"
         v-loading="loading"
         v-bind="$attrs"
+        v-on="tableEvents"
       >
+
         <el-table-column
           v-for="(item, index) in config"
           :key="index"
           v-bind="getAttrsValue(item)"
         >
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <div v-if="isFunction(getValue(scope, item))">
               <component
                 :cellList="getValue(scope, item)()"
@@ -42,19 +52,23 @@
             >{{ getValue(scope, item) }}</div>
           </template>
         </el-table-column>
+
       </el-table>
+
       <el-row class="table-pagination" justify="end" type="flex">
         <el-pagination
           background
           layout="total, sizes, prev, pager, next ,jumper"
-          :current-page="pagination.currentPage"
-          :page-size="pagination.perPage"
-          :total="pagination.total"
+          :current-page="getPagination.currentPage"
+          :page-size="getPagination.pageSize"
+          :total="getPagination.total"
           @size-change="handleSizeChange"
           @current-change="handlePageChange"
         />
       </el-row>
+
     </el-card>
+
   </div>
 </template>
 
@@ -69,7 +83,7 @@ export default {
     ComponentsMapping
   },
   props: {
-    paginationFilter: {
+    filterParams: {
       type: Object,
       default () {
         return {}
@@ -81,9 +95,16 @@ export default {
     },
     title: {
       type: String,
-      default: '这是标题'
+      default: ''
     },
     source: {
+      type: Array,
+      required: true,
+      default () {
+        return []
+      }
+    },
+    pagination: {
       type: Object,
       default () {
         return {}
@@ -95,20 +116,23 @@ export default {
         return []
       }
     },
-    // TODO: header中按钮处理逻辑优化
     actionList: {
       type: Array,
       default () {
         return [
-          { text: '', action: () => {} },
           { text: '', action: () => {} }
         ]
+      }
+    },
+    tableEvents: {
+      type: Object,
+      default () {
+        return {}
       }
     }
   },
   data () {
     return {
-      pagination: {},
       renderTypeList: {
         render: {},
         renderHTML: {
@@ -147,6 +171,9 @@ export default {
       const prop = item.attrs.prop
 
       const propValue = prop && scope.row[prop]
+
+      this.$set(scope.row, '$index', scope.$index)
+
       const args = propValue !== undefined ? propValue : scope.row
 
       return item[fn.name][fn.type](this.getParent, args)
@@ -162,10 +189,10 @@ export default {
       return isFunction(fn)
     },
     handlePageChange (val) {
-      this.$emit('getList', Object.assign(this.paginationFilter, { page: val }))
+      this.$emit('getList', Object.assign(this.filterParams, { page: val }))
     },
     handleSizeChange (val) {
-      this.$emit('getList', Object.assign(this.paginationFilter, { pageSize: val }))
+      this.$emit('getList', Object.assign(this.filterParams, { pageSize: val }))
     },
     getHeaderActions (item) {
       return {
@@ -176,16 +203,17 @@ export default {
   computed: {
     getParent () {
       return this.$parent
-    }
-  },
-  watch: {
-    source: {
-      handler () {
-        if (this.source.meta) {
-          this.pagination = this.source.meta.pagination
-        }
-      },
-      deep: true
+    },
+    getPagination () {
+      const params = {
+        currentPage: 1,
+        pageSize: 10,
+        total: 0
+      }
+      return Object.assign({}, params, this.pagination)
+    },
+    getActionList () {
+      return this.actionList.reverse().filter(it => it.text)
     }
   }
 }
@@ -201,8 +229,16 @@ export default {
     padding-bottom: 20px;
     .header-actions {
       flex: 1;
-      display: flex;
-      justify-content: flex-end;
+      overflow-x: auto;
+      .overflow-box {
+        display: flex;
+        flex-direction: row-reverse;
+        overflow-x: auto;
+        white-space: nowrap;
+        /deep/ .el-button:nth-child(1) {
+          margin-left: 10px;
+        }
+      }
     }
   }
   .el-table {
