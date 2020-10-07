@@ -1,20 +1,16 @@
 
 <script>
 export default {
-  created () {
-    this.$options.components = this.parent.$options.components
-    this.$options.directives = this.parent.$options.directives
-  },
   props: {
     parent: {
       type: Object,
-      dafault () {
+      default () {
         return {}
       }
     },
     row: {
       type: Object,
-      dafault () {
+      default () {
         return {}
       }
     },
@@ -36,6 +32,10 @@ export default {
     getCellList () {
       return this.cellList.filter((cell) => cell && Object.keys(cell).length)
     }
+  },
+  created () {
+    this.$options.components = this.parent.$options.components
+    this.$options.directives = this.parent.$options.directives
   },
   methods: {
     getAttrsValue (item) {

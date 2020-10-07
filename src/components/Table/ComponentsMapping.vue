@@ -1,11 +1,11 @@
 <template>
   <div>
     <component
-      v-for="(item, index) in getCellList"
       :is="item.name"
+      v-for="(item, index) in getCellList"
       :key="index"
-      :row="row"
       v-model="item.data"
+      :row="row"
     />
   </div>
 </template>
@@ -15,13 +15,13 @@ export default {
   props: {
     parent: {
       type: Object,
-      dafault () {
+      default () {
         return {}
       }
     },
     row: {
       type: Object,
-      dafault () {
+      default () {
         return {}
       }
     },

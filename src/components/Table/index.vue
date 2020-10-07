@@ -1,6 +1,5 @@
 <template>
   <div class="table-list-container">
-
     <header class="header">
       <h2>{{ title }}</h2>
 
@@ -13,26 +12,26 @@
             size="small"
             v-bind="getHeaderActions(item)"
             @click="item.action"
-          >{{ item.text }}</el-button>
+          >
+            {{ item.text }}
+          </el-button>
         </div>
       </div>
     </header>
 
     <el-card>
-
       <div class="filter-form-container">
-        <slot/>
+        <slot />
       </div>
 
       <el-table
         ref="hocElTable"
+        v-loading="loading"
         :data="source"
         style="width: 100%"
-        v-loading="loading"
         v-bind="$attrs"
         v-on="tableEvents"
       >
-
         <el-table-column
           v-for="(item, index) in config"
           :key="index"
@@ -41,21 +40,26 @@
           <template v-slot="scope">
             <div v-if="isFunction(getValue(scope, item))">
               <component
-                :cellList="getValue(scope, item)()"
                 :is="renderTypeList[getMatchRenderFunction(item)].target"
+                :cell-list="getValue(scope, item)()"
                 :row="scope.row"
                 :parent="getParent"
               />
             </div>
             <div
               v-else
-            >{{ getValue(scope, item) }}</div>
+            >
+              {{ getValue(scope, item) }}
+            </div>
           </template>
         </el-table-column>
-
       </el-table>
 
-      <el-row class="table-pagination" justify="end" type="flex">
+      <el-row
+        class="table-pagination"
+        justify="end"
+        type="flex"
+      >
         <el-pagination
           background
           layout="total, sizes, prev, pager, next ,jumper"
@@ -66,9 +70,7 @@
           @current-change="handlePageChange"
         />
       </el-row>
-
     </el-card>
-
   </div>
 </template>
 
@@ -144,6 +146,22 @@ export default {
       }
     }
   },
+  computed: {
+    getParent () {
+      return this.$parent
+    },
+    getPagination () {
+      const params = {
+        currentPage: 1,
+        pageSize: 10,
+        total: 0
+      }
+      return Object.assign({}, params, this.pagination)
+    },
+    getActionList () {
+      return this.actionList.slice().reverse().filter(it => it.text)
+    }
+  },
   methods: {
     getAttrsValue (item) {
       const { attrs } = item
@@ -198,22 +216,6 @@ export default {
       return {
         ...item.attrs
       }
-    }
-  },
-  computed: {
-    getParent () {
-      return this.$parent
-    },
-    getPagination () {
-      const params = {
-        currentPage: 1,
-        pageSize: 10,
-        total: 0
-      }
-      return Object.assign({}, params, this.pagination)
-    },
-    getActionList () {
-      return this.actionList.reverse().filter(it => it.text)
     }
   }
 }
