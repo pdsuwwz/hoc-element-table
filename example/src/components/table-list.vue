@@ -134,6 +134,8 @@ export default {
             label: '操作',
             width: '260',
             align,
+            // 设置当前列恢复点击事件冒泡
+            // isBubble: false,
             fixed: self.fixedRight
           },
           // 渲染 el-button，一般用在最后一列。目前只支持 el-button 和 click 事件，后续会根据需求支持任意的 el-xxx 和事件委托
