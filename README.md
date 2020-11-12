@@ -97,8 +97,7 @@ Detailed changes for each release are documented in the [release notes](https://
 import TableChildrenA from './table-children-a'
 import TableChildrenB from './table-children-b'
 
-// 自行封装的 “复制” 指令
-import { clipboard } from '@/directive/clipboard'
+import { clipboard } from 'example/directive/clipboard'
 
 export default {
   components: {
@@ -197,6 +196,8 @@ export default {
             label: '操作',
             width: '260',
             align,
+            // 设置当前列恢复点击事件冒泡
+            // isBubble: false,
             fixed: self.fixedRight
           },
           // 渲染 el-button，一般用在最后一列。目前只支持 el-button 和 click 事件，后续会根据需求支持任意的 el-xxx 和事件委托
@@ -336,7 +337,7 @@ export default {
     setCurrentRow (rowNumber) {
       const singleTable = this.$refs.singleTable
       const hocElTable = singleTable.$refs.hocElTable
-      let row = rowNumber !== undefined ? this.sourceList.data[rowNumber] : ''
+      const row = rowNumber !== undefined ? this.sourceList.data[rowNumber] : ''
       hocElTable.setCurrentRow(row)
     },
     setPublish (row) {
@@ -372,19 +373,6 @@ export default {
 }
 </script>
 
-<style>
-* {
-  padding: 0;
-  margin: 0;
-}
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
-</style>
-
 <style lang="scss" scoped>
 .box-container {
   .content {
@@ -394,5 +382,4 @@ export default {
   }
 }
 </style>
-
 ```

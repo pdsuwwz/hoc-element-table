@@ -92,20 +92,24 @@ export default {
     ComponentsMapping
   },
   props: {
+    // 获取表格元数据时携带的参数
     filterParams: {
       type: Object,
       default () {
         return {}
       }
     },
+    // 表格加载 loading
     loading: {
       type: Boolean,
       default: false
     },
+    // 表格名称
     title: {
       type: String,
       default: ''
     },
+    // 表格元数据
     source: {
       type: Array,
       required: true,
@@ -113,30 +117,36 @@ export default {
         return []
       }
     },
+    // 指定外层容器的渲染组件
     containerTag: {
       type: String,
       default: 'el-card'
     },
+    // 是否隐藏表头
     hideHeader: {
       type: Boolean,
       default: false
     },
+    // 是否隐藏分页
     hidePagination: {
       type: Boolean,
       default: false
     },
+    // 分页配置
     pagination: {
       type: Object,
       default () {
         return {}
       }
     },
+    // 表格配置文件
     config: {
       type: Array,
       default () {
         return []
       }
     },
+    // 表头右上方的按钮组
     actionList: {
       type: Array,
       default () {
@@ -145,6 +155,7 @@ export default {
         ]
       }
     },
+    // element table 原生事件
     tableEvents: {
       type: Object,
       default () {
