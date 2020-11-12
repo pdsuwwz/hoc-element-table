@@ -97,6 +97,7 @@ Detailed changes for each release are documented in the [release notes](https://
 import TableChildrenA from './table-children-a'
 import TableChildrenB from './table-children-b'
 
+// 自行封装的 “复制” 指令
 import { clipboard } from 'example/directive/clipboard'
 
 export default {
