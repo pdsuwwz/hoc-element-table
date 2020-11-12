@@ -31,6 +31,10 @@ import HocElTable from '@hoc-element/table'
 Vue.use(HocElTable)
 ```
 
+## Changelog
+
+Detailed changes for each release are documented in the [release notes](https://github.com/pdsuwwz/hoc-element-table/releases)
+
 ## Feature
 
 - [x] 表格快速配置
@@ -40,6 +44,7 @@ Vue.use(HocElTable)
 - [x] 支持自定义单元格 style 样式
 - [x] 支持绑定自定义指令
 - [x] 支持绑定 element-ui 原生 Table 的 Events 和 Methods
+- [x] 支持 Header 和 Pagination 的显隐控制
 
 ## 单元格渲染配置说明
 
