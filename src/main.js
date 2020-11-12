@@ -9,7 +9,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 export default {
-  version: '0.2.5',
+  version: '0.2.6',
   install,
   HocElTable
 }

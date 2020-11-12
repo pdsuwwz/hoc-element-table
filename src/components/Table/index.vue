@@ -1,6 +1,9 @@
 <template>
   <div class="table-list-container">
-    <header class="header">
+    <header
+      v-if="!hideHeader"
+      class="header"
+    >
       <h2>{{ title }}</h2>
 
       <div class="header-actions">
@@ -19,7 +22,7 @@
       </div>
     </header>
 
-    <el-card>
+    <component :is="containerTag">
       <div class="filter-form-container">
         <slot />
       </div>
@@ -44,6 +47,9 @@
                 :cell-list="getValue(scope, item)()"
                 :row="scope.row"
                 :parent="getParent"
+                @click.native="($event) => {
+                  handleNativeClick(getAttrsValue(item), $event)
+                }"
               />
             </div>
             <div
@@ -56,6 +62,7 @@
       </el-table>
 
       <el-row
+        v-if="!hidePagination"
         class="table-pagination"
         justify="end"
         type="flex"
@@ -70,12 +77,12 @@
           @current-change="handlePageChange"
         />
       </el-row>
-    </el-card>
+    </component>
   </div>
 </template>
 
 <script>
-import { isFunction } from '@/utils/type'
+import { isFunction, isBoolean } from '@/utils/type'
 import ElementsMapping from './ElementsMapping'
 import ComponentsMapping from './ComponentsMapping'
 export default {
@@ -85,20 +92,24 @@ export default {
     ComponentsMapping
   },
   props: {
+    // 获取表格元数据时携带的参数
     filterParams: {
       type: Object,
       default () {
         return {}
       }
     },
+    // 表格加载 loading
     loading: {
       type: Boolean,
       default: false
     },
+    // 表格名称
     title: {
       type: String,
       default: ''
     },
+    // 表格元数据
     source: {
       type: Array,
       required: true,
@@ -106,18 +117,36 @@ export default {
         return []
       }
     },
+    // 指定外层容器的渲染组件
+    containerTag: {
+      type: String,
+      default: 'el-card'
+    },
+    // 是否隐藏表头
+    hideHeader: {
+      type: Boolean,
+      default: false
+    },
+    // 是否隐藏分页
+    hidePagination: {
+      type: Boolean,
+      default: false
+    },
+    // 分页配置
     pagination: {
       type: Object,
       default () {
         return {}
       }
     },
+    // 表格配置文件
     config: {
       type: Array,
       default () {
         return []
       }
     },
+    // 表头右上方的按钮组
     actionList: {
       type: Array,
       default () {
@@ -126,6 +155,7 @@ export default {
         ]
       }
     },
+    // element table 原生事件
     tableEvents: {
       type: Object,
       default () {
@@ -216,6 +246,24 @@ export default {
       return {
         ...item.attrs
       }
+    },
+    stopBubbles (e) {
+      const event = e || window.event
+      if (event && event.stopPropagation) {
+        event.stopPropagation()
+      } else {
+        event.cancelBubble = true
+      }
+    },
+    handleNativeClick ({ isBubble }, e) {
+      // 考虑到单元格内渲染了组件，并且组件自身可能含有点击事件，故添加了阻止冒泡机制
+      // 若指定 isBubble 为 false，则当前单元格恢复冒泡机制
+      if (
+        isBoolean(isBubble) &&
+        !isBubble
+      ) return
+
+      this.stopBubbles(e)
     }
   }
 }

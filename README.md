@@ -31,6 +31,10 @@ import HocElTable from '@hoc-element/table'
 Vue.use(HocElTable)
 ```
 
+## Changelog
+
+Detailed changes for each release are documented in the [release notes](https://github.com/pdsuwwz/hoc-element-table/releases)
+
 ## Feature
 
 - [x] 表格快速配置
@@ -40,6 +44,7 @@ Vue.use(HocElTable)
 - [x] 支持自定义单元格 style 样式
 - [x] 支持绑定自定义指令
 - [x] 支持绑定 element-ui 原生 Table 的 Events 和 Methods
+- [x] 支持 Header 和 Pagination 的显隐控制
 
 ## 单元格渲染配置说明
 
@@ -93,7 +98,7 @@ import TableChildrenA from './table-children-a'
 import TableChildrenB from './table-children-b'
 
 // 自行封装的 “复制” 指令
-import { clipboard } from '@/directive/clipboard'
+import { clipboard } from 'example/directive/clipboard'
 
 export default {
   components: {
@@ -192,6 +197,8 @@ export default {
             label: '操作',
             width: '260',
             align,
+            // 设置当前列恢复点击事件冒泡
+            // isBubble: false,
             fixed: self.fixedRight
           },
           // 渲染 el-button，一般用在最后一列。目前只支持 el-button 和 click 事件，后续会根据需求支持任意的 el-xxx 和事件委托
@@ -331,7 +338,7 @@ export default {
     setCurrentRow (rowNumber) {
       const singleTable = this.$refs.singleTable
       const hocElTable = singleTable.$refs.hocElTable
-      let row = rowNumber !== undefined ? this.sourceList.data[rowNumber] : ''
+      const row = rowNumber !== undefined ? this.sourceList.data[rowNumber] : ''
       hocElTable.setCurrentRow(row)
     },
     setPublish (row) {
@@ -367,19 +374,6 @@ export default {
 }
 </script>
 
-<style>
-* {
-  padding: 0;
-  margin: 0;
-}
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
-</style>
-
 <style lang="scss" scoped>
 .box-container {
   .content {
@@ -389,5 +383,4 @@ export default {
   }
 }
 </style>
-
 ```

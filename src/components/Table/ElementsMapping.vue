@@ -57,6 +57,8 @@ export default {
   render: function (createElement) {
     return createElement('div',
       this.getCellList.map((cellItem) => {
+        const attributes = this.getAttrsValue(cellItem)
+
         return createElement(
           this.elementsMapping[cellItem.el],
           {
@@ -64,9 +66,9 @@ export default {
               click: cellItem.click.bind(this.parent, this.row)
             },
             domProps: {
-              innerHTML: this.getAttrsValue(cellItem).props.label
+              innerHTML: attributes.props.label
             },
-            ...this.getAttrsValue(cellItem)
+            ...attributes
           }
         )
       })
