@@ -74,17 +74,37 @@ module.exports = {
         }
       },
       {
-        test: /\.(svg|otf|ttf|woff?|eot|gif|png|jpe?g)(\?\S*)?$/,
+        test: /\.(png|jpe?g|gif|svg|webp)(\?.*)?$/,
         loader: 'url-loader',
         exclude: /node_modules/,
-        query: {
+        options: {
+          limit: 10000,
+          esModule: false,
+          name: '[name].[hash:7].[ext]'
+        }
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url-loader',
+        exclude: /node_modules/,
+        options: {
           limit: 10000,
           name: '[name].[hash:7].[ext]'
         }
       },
       {
-        test: /\.(png|jpg|gif|eot|woff|ttf|svg|webp|PNG)(\?\S*)?$/,
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        loader: 'url-loader',
+        exclude: /node_modules/,
+        options: {
+          limit: 10000,
+          name: '[name].[hash:7].[ext]'
+        }
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg|webp|woff2?|eot|ttf|otf|mp4|webm|ogg|mp3|wav|flac|aac)(\?\S*)?$/,
         loader: 'file-loader',
+        include: /node_modules/,
         options: {
           name: '[name].[ext]?[hash]'
         }
