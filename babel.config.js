@@ -5,7 +5,7 @@ const babelConfig = {
       {
         targets: {
           chrome: '58',
-          ie: '6'
+          ie: '11'
         }
       }
     ]
@@ -22,7 +22,8 @@ const babelConfig = {
     ],
     '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-syntax-import-meta',
-    ['@babel/plugin-proposal-class-properties', { loose: true }],
+    ['@babel/plugin-proposal-class-properties', { loose: false }],
+    ['@babel/plugin-proposal-private-methods', { loose: false }],
     '@babel/plugin-proposal-json-strings',
     [
       '@babel/plugin-proposal-decorators',

@@ -1,7 +1,7 @@
-import HocElTable from './components/Table'
+import HocElTable from '@/components/Table'
 
-const install = function (Vue, opts = {}) {
-  Vue.component('HocElTable', HocElTable)
+const install = function (app) {
+  app.component('HocElTable', HocElTable)
 }
 
 if (typeof window !== 'undefined' && window.Vue) {
@@ -9,7 +9,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 export default {
-  version: '0.2.6',
+  version: '1.0.0',
   install,
   HocElTable
 }

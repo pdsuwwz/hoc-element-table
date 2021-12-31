@@ -40,14 +40,14 @@
           :key="index"
           v-bind="getAttrsValue(item)"
         >
-          <template v-slot="scope">
+          <template #default="scope">
             <div v-if="isFunction(getValue(scope, item))">
               <component
                 :is="renderTypeList[getMatchRenderFunction(item)].target"
                 :cell-list="getValue(scope, item)()"
                 :row="scope.row"
                 :parent="getParent"
-                @click.native="($event) => {
+                @click="($event) => {
                   handleNativeClick(getAttrsValue(item), $event)
                 }"
               />
@@ -69,7 +69,7 @@
       >
         <el-pagination
           background
-          layout="total, sizes, prev, pager, next ,jumper"
+          layout="total, sizes, prev, pager, next, jumper"
           :current-page="getPagination.currentPage"
           :page-size="getPagination.pageSize"
           :total="getPagination.total"
@@ -82,10 +82,11 @@
 </template>
 
 <script>
-import { isFunction, isBoolean } from '@/utils/type'
+import { isFunction as isFn, isBoolean } from '@/utils/type'
 import ElementsMapping from './ElementsMapping'
 import ComponentsMapping from './ComponentsMapping'
-export default {
+import { computed, defineComponent, getCurrentInstance, ref } from 'vue'
+export default defineComponent({
   name: 'Table',
   components: {
     ElementsMapping,
@@ -163,99 +164,108 @@ export default {
       }
     }
   },
-  data () {
-    return {
-      renderTypeList: {
-        render: {},
-        renderHTML: {
-          target: 'elements-mapping'
-        },
-        renderComponent: {
-          target: 'components-mapping'
-        }
-      }
-    }
-  },
-  computed: {
-    getParent () {
-      return this.$parent
-    },
-    getPagination () {
-      const params = {
-        currentPage: 1,
-        pageSize: 10,
-        total: 0
-      }
-      return Object.assign({}, params, this.pagination)
-    },
-    getActionList () {
-      return this.actionList.slice().reverse().filter(it => it.text)
-    }
-  },
-  methods: {
-    getAttrsValue (item) {
+
+  setup (props) {
+    const { proxy } = getCurrentInstance()
+
+    const getAttrsValue = (item) => {
       const { attrs } = item
       const result = {
         ...attrs
       }
       delete result.prop
       return result
-    },
-    getValue (scope, configItem) {
+    }
+
+    const renderTypeList = ref({
+      render: {},
+      renderHTML: {
+        target: 'elements-mapping'
+      },
+      renderComponent: {
+        target: 'components-mapping'
+      }
+    })
+
+    const getParent = computed(() => {
+      return proxy.$parent
+    })
+    const getPagination = computed(() => {
+      const params = {
+        currentPage: 1,
+        pageSize: 10,
+        total: 0
+      }
+      return Object.assign({}, params, props.pagination)
+    })
+
+    const getActionList = computed(() => {
+      return props.actionList.slice().reverse().filter(it => it.text)
+    })
+
+    const getValue = (scope, configItem) => {
       const prop = configItem.attrs.prop
 
-      const renderName = this.getMatchRenderFunction(configItem)
-      const renderObj = this.renderTypeList[renderName]
+      const renderName = getMatchRenderFunction(configItem)
+      const renderObj = renderTypeList.value[renderName]
 
-      if (renderObj && this.isFunction(configItem[renderName])) {
+      if (renderObj && isFunction(configItem[renderName])) {
         return renderObj.target
-          ? this.getRenderValue(scope, configItem, { name: renderName, type: 'bind' })
-          : this.getRenderValue(scope, configItem)
+          ? getRenderValue(scope, configItem, { name: renderName, type: 'bind' })
+          : getRenderValue(scope, configItem)
       }
 
       return scope.row[prop]
-    },
-    getRenderValue (scope, item, fn = { name: 'render', type: 'call' }) {
+    }
+
+    const getRenderValue = (scope, item, fn = { name: 'render', type: 'call' }) => {
       const prop = item.attrs.prop
 
       const propValue = prop && scope.row[prop]
 
-      this.$set(scope.row, '$index', scope.$index)
+      scope.row.$index = scope.$index
 
       const args = propValue !== undefined ? propValue : scope.row
 
-      return item[fn.name][fn.type](this.getParent, args)
-    },
+      return item[fn.name][fn.type](getParent.value, args)
+    }
+
     // 匹配 render 开头的函数
-    getMatchRenderFunction (obj) {
+    const getMatchRenderFunction = (obj) => {
       return Object.keys(obj).find((key) => {
         const matchRender = key.match(/^render.*/)
         return matchRender && matchRender[0]
       })
-    },
-    isFunction (fn) {
-      return isFunction(fn)
-    },
-    handlePageChange (val) {
-      this.$emit('getList', Object.assign(this.filterParams, { page: val }))
-    },
-    handleSizeChange (val) {
-      this.$emit('getList', Object.assign(this.filterParams, { pageSize: val }))
-    },
-    getHeaderActions (item) {
+    }
+
+    const isFunction = (fn) => {
+      return isFn(fn)
+    }
+
+    const handlePageChange = (val) => {
+      proxy.$emit('getList', Object.assign(props.filterParams, { page: val }))
+    }
+
+    const handleSizeChange = (val) => {
+      proxy.$emit('getList', Object.assign(props.filterParams, { pageSize: val }))
+    }
+
+    const getHeaderActions = (item) => {
       return {
         ...item.attrs
       }
-    },
-    stopBubbles (e) {
+    }
+
+    const stopBubbles = (e) => {
       const event = e || window.event
       if (event && event.stopPropagation) {
         event.stopPropagation()
       } else {
         event.cancelBubble = true
       }
-    },
-    handleNativeClick ({ isBubble }, e) {
+    }
+
+    const handleNativeClick = ({ isBubble }, e) => {
       // 考虑到单元格内渲染了组件，并且组件自身可能含有点击事件，故添加了阻止冒泡机制
       // 若指定 isBubble 为 false，则当前单元格恢复冒泡机制
       if (
@@ -263,10 +273,28 @@ export default {
         !isBubble
       ) return
 
-      this.stopBubbles(e)
+      stopBubbles(e)
+    }
+
+    return {
+      getParent,
+      getPagination,
+      renderTypeList,
+      getActionList,
+
+      getAttrsValue,
+      getValue,
+      getRenderValue,
+      getMatchRenderFunction,
+      isFunction,
+      handlePageChange,
+      handleSizeChange,
+      getHeaderActions,
+      stopBubbles,
+      handleNativeClick
     }
   }
-}
+})
 </script>
 
 <style lang="scss" scoped>
@@ -285,17 +313,17 @@ export default {
         flex-direction: row-reverse;
         overflow-x: auto;
         white-space: nowrap;
-        /deep/ .el-button:nth-child(1) {
+        :deep() .el-button:nth-child(1) {
           margin-left: 10px;
         }
       }
     }
   }
   .el-table {
-    /deep/ th {
+    :deep() th {
       font-size: 14px;
     }
-    /deep/ td {
+    :deep() td {
       font-size: 14px;
     }
   }

@@ -1,7 +1,7 @@
-const Clipboard = require('clipboard')
+import Clipboard from 'clipboard'
 
 const clipboard = {
-  bind: function (el, binding, vnode) {
+  beforeMount: function (el, binding, vnode) {
     if (binding.arg === 'success') {
       el._v_clipboard_success = binding.value
     } else if (binding.arg === 'error') {
@@ -22,7 +22,7 @@ const clipboard = {
       el._v_clipboard = clipboard
     }
   },
-  update: function (el, binding) {
+  updated: function (el, binding) {
     if (binding.arg === 'success') {
       el._v_clipboard_success = binding.value
     } else if (binding.arg === 'error') {
@@ -32,7 +32,7 @@ const clipboard = {
       el._v_clipboard.action = function () { return binding.arg === 'cut' ? 'cut' : 'copy' }
     }
   },
-  unbind: function (el, binding) {
+  unmounted: function (el, binding) {
     if (binding.arg === 'success') {
       delete el._v_clipboard_success
     } else if (binding.arg === 'error') {

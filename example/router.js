@@ -1,5 +1,4 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 const Layout = () => import('example/components/Layout')
 const importModule = (filePath) => {
@@ -17,8 +16,7 @@ const routes = [{
   ]
 }]
 
-Vue.use(VueRouter)
-export default new VueRouter({
+export default createRouter({
   routes,
-  mode: 'history'
+  history: createWebHistory()
 })

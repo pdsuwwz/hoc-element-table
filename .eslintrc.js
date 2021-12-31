@@ -35,7 +35,7 @@ const eslintConfig = {
     'prefer-promise-reject-errors': 0,
     'no-unused-vars': 1,
     'no-debugger': 1,
-    'no-console': 1,
+    'no-console': 0,
     'no-useless-constructor': 'off'
   }
 }

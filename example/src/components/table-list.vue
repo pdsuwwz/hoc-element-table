@@ -32,13 +32,16 @@
 <script>
 /* eslint-disable vue/no-unused-components */
 
+import { ElMessage, ElMessageBox } from 'element-plus'
+
 import TableChildrenA from './table-children-a'
 import TableChildrenB from './table-children-b'
 
 // 自行封装的 “复制” 指令
 import { clipboard } from 'example/directive/clipboard'
+import { computed, defineComponent, ref } from 'vue'
 
-export default {
+export default defineComponent({
   components: {
     TableChildrenA,
     TableChildrenB
@@ -46,18 +49,17 @@ export default {
   directives: {
     clipboard
   },
-  data () {
-    return {
-      loading: false,
-      fixedRight: 'right',
-      align: 'center',
-      tableHeight: null,
-      border: true,
-      sourceList: {}
-    }
-  },
-  computed: {
-    mockData () {
+  setup () {
+    const loading = ref(false)
+    const fixedRight = ref('right')
+    const align = ref('center')
+    const tableHeight = ref(null)
+    const border = ref(true)
+    const sourceList = ref({})
+
+    const singleTable = ref({})
+
+    const mockData = computed(() => {
       return {
         data: [
           { id: 0, name: '王小虎1', isForbid: false },
@@ -71,15 +73,14 @@ export default {
           currentPage: 1
         }
       }
-    },
-    config () {
-      const self = this
-      const align = self.align
+    })
+
+    const config = computed(() => {
       return [
         {
           attrs: {
             label: '编号',
-            align,
+            align: align.value,
             prop: 'id'
           }
         },
@@ -87,7 +88,7 @@ export default {
           attrs: {
             label: '名称',
             prop: 'name',
-            align,
+            align: align.value,
             width: 200
           }
         },
@@ -95,7 +96,7 @@ export default {
           attrs: {
             label: '状态',
             prop: 'isForbid',
-            align,
+            align: align.value,
             width: 200
           },
           // 渲染字符串，默认不想展示 prop 的值，而是想对它做一些处理的时候，可以用这个方法
@@ -106,7 +107,7 @@ export default {
         {
           attrs: {
             label: '详情A',
-            align,
+            align: align.value,
             width: 400
           },
           // 渲染组件，返回值为一个数组， data 作为组件的 v-model，适用于需要展示复杂的数据的场景
@@ -121,7 +122,7 @@ export default {
         {
           attrs: {
             label: '详情B',
-            align,
+            align: align.value,
             width: 400
           },
           renderComponent (row) {
@@ -134,10 +135,10 @@ export default {
           attrs: {
             label: '操作',
             width: '260',
-            align,
+            align: align.value,
             // 设置当前列恢复点击事件冒泡
             // isBubble: false,
-            fixed: self.fixedRight
+            fixed: fixedRight.value
           },
           // 渲染 el-button，一般用在最后一列。目前只支持 el-button 和 click 事件，后续会根据需求支持任意的 el-xxx 和事件委托
           renderHTML (row) {
@@ -150,7 +151,9 @@ export default {
                 },
                 el: 'button',
                 click () {
-                  this.$message(JSON.stringify(row))
+                  ElMessage({
+                    message: JSON.stringify(row)
+                  })
                 }
               },
               {
@@ -161,7 +164,9 @@ export default {
                 },
                 el: 'button',
                 click () {
-                  this.$message(`编号${row.id} router -> 已跳转到编辑页面！`)
+                  ElMessage({
+                    message: `编号${row.id} router -> 已跳转到编辑页面！`
+                  })
                 }
               },
               {
@@ -172,35 +177,37 @@ export default {
                 },
                 el: 'button',
                 click () {
-                  this.setPublish(row)
+                  setPublish(row)
                 }
               },
-              !row.isForbid ? {
-                attrs: {
-                  label: '禁用',
-                  type: 'text',
-                  disabled: false,
-                  size: 'medium'
-                },
-                el: 'button',
-                click () {
-                  this.setForbid(row)
-                }
-              } : {
-                attrs: {
-                  label: '解除禁用',
-                  type: 'text',
-                  disabled: false,
-                  size: 'medium',
-                  style: {
-                    color: '#e6a23c'
+              !row.isForbid
+                ? {
+                    attrs: {
+                      label: '禁用',
+                      type: 'text',
+                      disabled: false,
+                      size: 'medium'
+                    },
+                    el: 'button',
+                    click () {
+                      setForbid(row)
+                    }
                   }
-                },
-                el: 'button',
-                click () {
-                  this.setForbid(row)
-                }
-              },
+                : {
+                    attrs: {
+                      label: '解除禁用',
+                      type: 'text',
+                      disabled: false,
+                      size: 'medium',
+                      style: {
+                        color: '#e6a23c'
+                      }
+                    },
+                    el: 'button',
+                    click () {
+                      setForbid(row)
+                    }
+                  },
               {
                 attrs: {
                   label: '指令测试-复制链接',
@@ -217,99 +224,132 @@ export default {
                 },
                 el: 'button',
                 click () {
-                  this.copyLink(row)
+                  copyLink(row)
                 }
               }
             ]
           }
         }
       ]
-    }
-  },
-  async created () {
-    await this.getList()
-  },
-  methods: {
-    sleep (time = 1000) {
+    })
+
+    const sleep = (time = 1000) => {
       return new Promise((resolve) => setTimeout(resolve, time))
-    },
-    async getList () {
-      this.loading = true
+    }
 
-      await this.sleep()
+    const getList = async () => {
+      loading.value = true
 
-      this.sourceList = this.mockData
-      this.loading = false
-    },
-    setFixedRight () {
-      if (!this.fixedRight) {
-        this.fixedRight = 'right'
+      await sleep()
+
+      sourceList.value = mockData.value
+      loading.value = false
+    }
+
+    const setFixedRight = () => {
+      if (!fixedRight.value) {
+        fixedRight.value = 'right'
       } else {
-        this.fixedRight = false
+        fixedRight.value = false
       }
-    },
-    setFixedRow () {
-      if (!this.tableHeight) {
-        this.tableHeight = '350'
+    }
+
+    const setFixedRow = () => {
+      if (!tableHeight.value) {
+        tableHeight.value = '350'
       } else {
-        this.tableHeight = ''
+        tableHeight.value = ''
       }
-    },
-    setLabelCenter () {
-      if (!this.align) {
-        this.align = 'center'
+    }
+
+    const setLabelCenter = () => {
+      if (!align.value) {
+        align.value = 'center'
       } else {
-        this.align = ''
+        align.value = ''
       }
-    },
-    setBorder () {
-      this.border = !this.border
-    },
-    handleRowClick (row, column, cell) {
-      this.$message({
+    }
+
+    const setBorder = () => {
+      border.value = !border.value
+    }
+
+    const handleRowClick = (row, column, cell) => {
+      ElMessage({
         dangerouslyUseHTMLString: true, // Be careful :)
         message: `row-click 事件，单击了<span style="color: red;"> 第${row.$index}行 </span>请看控制台 log`
       })
       console.log('回调参数分别为: row, column, cell')
       console.log(row, column, cell)
-    },
-    setCurrentRow (rowNumber) {
-      const singleTable = this.$refs.singleTable
-      const hocElTable = singleTable.$refs.hocElTable
-      const row = rowNumber !== undefined ? this.sourceList.data[rowNumber] : ''
+    }
+
+    const setCurrentRow = (rowNumber) => {
+      const hocElTable = singleTable.value.$refs.hocElTable
+      const row = rowNumber !== undefined ? sourceList.value.data[rowNumber] : ''
       hocElTable.setCurrentRow(row)
-    },
-    setPublish (row) {
-      this.$confirm(`此操作会将${row.name}发布到线上, 是否继续?`, `编号${row.id}提示`, {
+    }
+
+    const setPublish = (row) => {
+      ElMessageBox.confirm(`此操作会将${row.name}发布到线上, 是否继续?`, `编号${row.id}提示`, {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$message({
+        ElMessage({
           type: 'success',
           message: '发布成功!'
         })
       }).catch(() => {
-        this.$message({
+        ElMessage({
           type: 'info',
           message: '已取消发布'
         })
       })
-    },
-    async setForbid (row) {
-      this.loading = true
-      await this.sleep()
-      this.loading = false
+    }
+
+    const setForbid = async (row) => {
+      loading.value = true
+      await sleep()
+      loading.value = false
       row.isForbid = !row.isForbid
-    },
-    copyLink (row) {
-      this.$message({
+    }
+
+    const copyLink = (row) => {
+      ElMessage({
         type: 'success',
-        message: '指令测试-复制成功，可以粘贴啦！'
+        message: '指令测试-复制成功，可以粘贴啦!'
       })
     }
+
+    getList()
+
+    return {
+      singleTable,
+
+      loading,
+      fixedRight,
+      align,
+      tableHeight,
+      border,
+      sourceList,
+      mockData,
+      config,
+
+      sleep,
+      setFixedRight,
+      setFixedRow,
+      setLabelCenter,
+      setBorder,
+      handleRowClick,
+      setCurrentRow,
+      setPublish,
+      setForbid,
+      copyLink,
+
+      getList
+    }
   }
-}
+})
 </script>
 
 <style lang="scss" scoped>

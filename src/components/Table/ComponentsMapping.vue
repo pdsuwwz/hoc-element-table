@@ -11,7 +11,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent, getCurrentInstance, ref } from 'vue'
+
+export default defineComponent({
   props: {
     parent: {
       type: Object,
@@ -32,14 +34,12 @@ export default {
       }
     }
   },
-  data () {
+  setup (props) {
+    const { proxy } = getCurrentInstance()
+    proxy.$.components = props.parent.$options.components
     return {
-      // fix:  https://github.com/pdsuwwz/hoc-element-table/issues/8
-      getCellList: this.cellList
+      getCellList: ref(props.cellList)
     }
-  },
-  created () {
-    this.$options.components = this.parent.$options.components
   }
-}
+})
 </script>

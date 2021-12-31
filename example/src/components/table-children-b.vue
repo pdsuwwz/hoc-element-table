@@ -5,26 +5,28 @@
       :src="url"
       fit="contain"
     />
-    <p>{{ value }}</p>
+    <p>{{ modelValue }}</p>
   </div>
 </template>
 
 <script>
-export default {
+import { defineComponent, ref } from 'vue'
+
+export default defineComponent({
   props: {
-    value: {
+    modelValue: {
       type: Object,
       default () {
         return {}
       }
     }
   },
-  data () {
+  setup () {
     return {
-      url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+      url: ref('https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg')
     }
   }
-}
+})
 </script>
 
 <style lang="scss" scoped>
