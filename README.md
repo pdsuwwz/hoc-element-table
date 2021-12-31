@@ -33,7 +33,7 @@ pnpm add @hoc-element/table
 ```js
 import { createApp } from 'vue'
 import ElementPlus from 'element-plus'
-import HocElTable from '@/main.js'
+import HocElTable from '@hoc-element/table'
 import App from './App.vue'
 
 createApp(App)
