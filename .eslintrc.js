@@ -2,11 +2,10 @@ const eslintConfig = {
   root: true,
   parserOptions: {
     parser: '@babel/eslint-parser',
-    ecmaVersion: 7,
-    sourceType: 'module',
     ecmaFeatures: {
-      jsx: true
-    }
+      legacyDecorators: true
+    },
+    sourceType: 'module'
   },
   env: {
     browser: true,
