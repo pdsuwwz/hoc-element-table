@@ -1,6 +1,7 @@
 # @hoc-element/table
 
-![npm](https://img.shields.io/npm/v/@hoc-element/table)  ![NPM](https://img.shields.io/npm/l/@hoc-element/table)
+[![npm](https://img.shields.io/npm/v/@hoc-element/table)](https://www.npmjs.com/package/@hoc-element/table)
+![NPM](https://img.shields.io/npm/l/@hoc-element/table)
 
 📦 基于 Webpack 5 构建，重构成 Vue 3.x，二次封装了 element-plus 库中的 table，通过配置文件的方式即可生成 `table` 表格, 无需再写大量的诸如 `<el-xxx>` 的模板，实现更高的自由度，旨在减少重复的操作，让开发变得更高效。
 
