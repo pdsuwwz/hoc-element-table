@@ -6,6 +6,10 @@
 
 **[Live demo](https://pdsuwwz.github.io/hoc-element-table)** 
 
+## Version
+
+* Vue 2.x 版本 ｜ [Vue 3.x 版本](https://github.com/pdsuwwz/hoc-element-table)
+
 ## Environment Support
 
 * Vue 2.6.0+
