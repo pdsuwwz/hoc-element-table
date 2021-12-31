@@ -1,6 +1,16 @@
 
 <script>
-export default {
+import {
+  defineComponent,
+  getCurrentInstance,
+  computed,
+  ref,
+  h,
+  withDirectives,
+  resolveDirective,
+  resolveComponent
+} from 'vue'
+export default defineComponent({
   props: {
     parent: {
       type: Object,
@@ -21,24 +31,20 @@ export default {
       }
     }
   },
-  data () {
-    return {
-      elementsMapping: {
-        button: 'el-button'
-      }
-    }
-  },
-  computed: {
-    getCellList () {
-      return this.cellList.filter((cell) => cell && Object.keys(cell).length)
-    }
-  },
-  created () {
-    this.$options.components = this.parent.$options.components
-    this.$options.directives = this.parent.$options.directives
-  },
-  methods: {
-    getAttrsValue (item) {
+  setup (props) {
+    const { proxy } = getCurrentInstance()
+    proxy.$.components = props.parent.$options.components
+    proxy.$.directives = props.parent.$options.directives
+
+    const elementsMapping = ref({
+      button: 'el-button'
+    })
+
+    const getCellList = computed(() => {
+      return props.cellList.filter((cell) => cell && Object.keys(cell).length)
+    })
+
+    const getAttrsValue = (item) => {
       const {
         class: className,
         style,
@@ -49,30 +55,49 @@ export default {
       return {
         class: className,
         style,
-        directives: directives || [],
+        directives,
         props: attrs
       }
     }
-  },
-  render: function (createElement) {
-    return createElement('div',
-      this.getCellList.map((cellItem) => {
-        const attributes = this.getAttrsValue(cellItem)
 
-        return createElement(
-          this.elementsMapping[cellItem.el],
-          {
-            on: {
-              click: cellItem.click.bind(this.parent, this.row)
-            },
-            domProps: {
-              innerHTML: attributes.props.label
-            },
-            ...attributes
+    return () => {
+      return h(
+        'div',
+        getCellList.value.map((cellItem) => {
+          const comp = resolveComponent(elementsMapping.value[cellItem.el])
+
+          const attributes = getAttrsValue(cellItem)
+          const { label, ...others } = attributes.props
+          const { directives } = attributes
+
+          let resultVNode = h(
+            comp,
+            {
+              onClick: cellItem.click.bind(props.parent, props.row),
+              innerHTML: label,
+              ...others
+            }
+          )
+
+          if (directives) {
+            resultVNode = withDirectives(
+              resultVNode,
+              [
+                ...directives.map((directiveItem) => {
+                  return [
+                    resolveDirective(directiveItem.name),
+                    directiveItem.value,
+                    directiveItem.arg
+                  ]
+                })
+              ]
+            )
           }
-        )
-      })
-    )
+
+          return resultVNode
+        })
+      )
+    }
   }
-}
+})
 </script>

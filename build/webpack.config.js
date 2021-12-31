@@ -1,13 +1,8 @@
 const path = require('path')
 const webpack = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
-const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
-const notifier = require('node-notifier')
 
-function resolve (dir) {
-  return path.join(process.cwd(), dir)
-}
-
+const { resolve } = require('./utils')
 module.exports = {
   mode: 'production',
   entry: './src/main.js',
@@ -17,21 +12,9 @@ module.exports = {
     filename: 'hoc-el-table.js',
     libraryTarget: 'umd'
   },
+  stats: 'minimal',
   module: {
     rules: [
-      {
-        enforce: 'pre',
-        test: /\.(vue|js)(\?.*)?$/,
-        loader: 'eslint-loader',
-        include: resolve('src'),
-        options: {
-          fix: true,
-          failOnError: true,
-          useEslintrc: true,
-          configFile: resolve('.eslintrc.js'),
-          formatter: require('eslint-friendly-formatter')
-        }
-      },
       {
         test: /\.css$/,
         use: [
@@ -61,7 +44,7 @@ module.exports = {
           loader: 'vue-loader'
         },
         exclude: /node_modules/,
-        include: resolve('src')
+        include: resolve('./src')
       },
       {
         test: /\.js$/,
@@ -69,7 +52,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            extends: resolve('babel.config.js')
+            extends: resolve('./babel.config.js')
           }
         }
       },
@@ -113,8 +96,8 @@ module.exports = {
   },
   resolve: {
     alias: {
-      vue$: 'vue/dist/vue.esm.js',
-      '@': resolve('src')
+      vue$: 'vue/dist/vue.esm-bundler.js',
+      '@': resolve('./src')
     },
     extensions: ['*', '.js', '.vue', '.json']
   },
@@ -129,24 +112,17 @@ module.exports = {
     hints: false
   },
   devtool: 'source-map',
+  externals: {
+    vue: {
+      root: 'Vue',
+      commonjs: 'vue',
+      commonjs2: 'vue'
+    }
+  },
   plugins: [
     new VueLoaderPlugin(),
     new webpack.LoaderOptionsPlugin({
       minimize: true
     }),
-    new FriendlyErrorsWebpackPlugin({
-      clearConsole: false,
-      onErrors: (severity, errors) => {
-        if (severity !== 'error') {
-          return
-        }
-        const error = errors[0]
-        notifier.notify({
-          title: 'Webpack error',
-          message: `${severity}: ${error.name}`,
-          subtitle: error.file || ''
-        })
-      }
-    })
   ]
 }

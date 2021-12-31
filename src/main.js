@@ -1,4 +1,4 @@
-import HocElTable from './components/Table'
+import HocElTable from '@/components/Table'
 
 const install = function (Vue, opts = {}) {
   Vue.component('HocElTable', HocElTable)

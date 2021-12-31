@@ -1,15 +1,15 @@
-import Vue from 'vue'
-import ElementUI from 'element-ui'
+import { createApp } from 'vue'
 import router from './router.js'
+import ElementPlus from 'element-plus'
+
+// import HocElTable from 'root/lib/hoc-el-table' // Switch to bundle lib
 import HocElTable from '@/main.js'
 import App from './App.vue'
 
-import 'element-ui/lib/theme-chalk/index.css'
+import 'example/styles/variables.scss'
 
-Vue.use(ElementUI)
-Vue.use(HocElTable)
-
-new Vue({
-  router,
-  render: h => h(App)
-}).$mount('#app')
+createApp(App)
+  .use(router)
+  .use(ElementPlus)
+  .use(HocElTable)
+  .mount('#app')
