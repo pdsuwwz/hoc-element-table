@@ -2,7 +2,6 @@
   <div>
     <div class="block">
       <span class="demonstration">轮播组件</span>
-      <el-button>233</el-button>
       <el-carousel height="150px">
         <el-carousel-item
           v-for="item in 3"
