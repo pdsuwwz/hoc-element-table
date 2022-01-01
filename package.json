@@ -2,7 +2,7 @@
   "name": "@hoc-element/table",
   "version": "1.0.0",
   "main": "lib/hoc-el-table.js",
-  "description": "二次封装了 element-plus 库中的 table，通过配置文件的方式即可生成 table 表格, 实现更高的自由度，旨在减少重复的操作，让开发变得更简单。",
+  "description": "📦  A Vue3.x Table Component built on Webpack 5 that follows the Configuration",
   "author": "Wisdom <pdsu.wwz@foxmail.com>",
   "license": "MIT",
   "scripts": {
