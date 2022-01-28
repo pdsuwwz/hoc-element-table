@@ -12,7 +12,6 @@
             v-for="(item, index) in getActionList"
             :key="index"
             type="primary"
-            size="small"
             v-bind="getHeaderActions(item)"
             @click="item.action"
           >

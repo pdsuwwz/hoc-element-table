@@ -164,8 +164,7 @@ export default defineComponent({
               {
                 attrs: {
                   label: '查看',
-                  type: 'text',
-                  size: 'medium'
+                  type: 'text'
                 },
                 el: 'button',
                 click () {
@@ -177,8 +176,7 @@ export default defineComponent({
               {
                 attrs: {
                   label: '编辑',
-                  type: 'text',
-                  size: 'medium'
+                  type: 'text'
                 },
                 el: 'button',
                 click () {
@@ -190,8 +188,7 @@ export default defineComponent({
               {
                 attrs: {
                   label: '发布',
-                  type: 'text',
-                  size: 'medium'
+                  type: 'text'
                 },
                 el: 'button',
                 click () {
@@ -203,8 +200,7 @@ export default defineComponent({
                     attrs: {
                       label: '禁用',
                       type: 'text',
-                      disabled: false,
-                      size: 'medium'
+                      disabled: false
                     },
                     el: 'button',
                     click () {
@@ -216,7 +212,6 @@ export default defineComponent({
                       label: '解除禁用',
                       type: 'text',
                       disabled: false,
-                      size: 'medium',
                       style: {
                         color: '#e6a23c'
                       }
@@ -230,7 +225,6 @@ export default defineComponent({
                 attrs: {
                   label: '指令测试-复制链接',
                   type: 'primary',
-                  size: 'medium',
                   // 为简便起见，这里引入了 clipboard 库，请注意
                   directives: [
                     {
