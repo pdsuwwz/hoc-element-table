@@ -34,7 +34,7 @@ specifiers:
   eslint-plugin-import: ^2.25.4
   eslint-plugin-jsx-a11y: ^6.5.1
   eslint-plugin-node: ^11.1.0
-  eslint-plugin-promise: ^5.2.0
+  eslint-plugin-promise: 6.0.0
   eslint-plugin-vue: ^7.20.0
   eslint-webpack-plugin: ^3.1.1
   file-loader: ^6.2.0
@@ -72,7 +72,7 @@ devDependencies:
   '@babel/runtime': 7.17.2
   '@babel/runtime-corejs2': 7.17.2
   '@vue/compiler-sfc': 3.2.31
-  '@vue/eslint-config-standard': 6.1.0_1b704c72c899257fd3f9fd4b9aa9dfaa
+  '@vue/eslint-config-standard': 6.1.0_1d04e5967978b183e3775ac6f8194b76
   babel-loader: 8.2.3_9351ded4f79a023849d74b5df047d562
   clipboard: 2.0.10
   core-js: 3.21.1
@@ -80,12 +80,12 @@ devDependencies:
   css-loader: 6.6.0_webpack@5.69.1
   element-plus: 2.0.2_vue@3.2.31
   eslint: 7.32.0
-  eslint-config-standard: 16.0.3_6a48346ff31498e55146b31bc801dc94
+  eslint-config-standard: 16.0.3_d0e80f608141070b904d4b29990a3f4b
   eslint-friendly-formatter: 4.0.1
   eslint-plugin-import: 2.25.4_eslint@7.32.0
   eslint-plugin-jsx-a11y: 6.5.1_eslint@7.32.0
   eslint-plugin-node: 11.1.0_eslint@7.32.0
-  eslint-plugin-promise: 5.2.0_eslint@7.32.0
+  eslint-plugin-promise: 6.0.0_eslint@7.32.0
   eslint-plugin-vue: 7.20.0_eslint@7.32.0
   eslint-webpack-plugin: 3.1.1_eslint@7.32.0+webpack@5.69.1
   file-loader: 6.2.0_webpack@5.69.1
@@ -1666,7 +1666,7 @@ packages:
     resolution: {integrity: sha512-iO/4FIezHKXhiDBdKySCvJVh8/mZPxHpiQrTy+PXVqJZgpTPTdHy4q8GXulaY+UKEagdkBb0onxNQZ0LNiqVhw==}
     dev: true
 
-  /@vue/eslint-config-standard/6.1.0_1b704c72c899257fd3f9fd4b9aa9dfaa:
+  /@vue/eslint-config-standard/6.1.0_1d04e5967978b183e3775ac6f8194b76:
     resolution: {integrity: sha512-9+hrEyflDzsGdlBDl9jPV5DIYUx1TOU5OSQqRDKCrNumrxRj5HRWKuk+ocXWnha6uoNRtLC24mY7d/MwqvBCNw==}
     peerDependencies:
       '@vue/cli-service': ^3.0.0 || ^4.0.0 || ^5.0.0-0
@@ -1680,12 +1680,12 @@ packages:
         optional: true
     dependencies:
       eslint: 7.32.0
-      eslint-config-standard: 16.0.3_6a48346ff31498e55146b31bc801dc94
+      eslint-config-standard: 16.0.3_d0e80f608141070b904d4b29990a3f4b
       eslint-import-resolver-node: 0.3.6
       eslint-import-resolver-webpack: 0.13.2_7ca1bbee865b31ac8d70a441e63dab12
       eslint-plugin-import: 2.25.4_eslint@7.32.0
       eslint-plugin-node: 11.1.0_eslint@7.32.0
-      eslint-plugin-promise: 5.2.0_eslint@7.32.0
+      eslint-plugin-promise: 6.0.0_eslint@7.32.0
       eslint-plugin-vue: 7.20.0_eslint@7.32.0
     transitivePeerDependencies:
       - webpack
@@ -2876,7 +2876,7 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /eslint-config-standard/16.0.3_6a48346ff31498e55146b31bc801dc94:
+  /eslint-config-standard/16.0.3_d0e80f608141070b904d4b29990a3f4b:
     resolution: {integrity: sha512-x4fmJL5hGqNJKGHSjnLdgA6U6h1YW/G2dW9fA+cyVur4SK6lyue8+UgNKWlZtUDTXvgKDD/Oa3GQjmB5kjtVvg==}
     peerDependencies:
       eslint: ^7.12.1
@@ -2887,7 +2887,7 @@ packages:
       eslint: 7.32.0
       eslint-plugin-import: 2.25.4_eslint@7.32.0
       eslint-plugin-node: 11.1.0_eslint@7.32.0
-      eslint-plugin-promise: 5.2.0_eslint@7.32.0
+      eslint-plugin-promise: 6.0.0_eslint@7.32.0
     dev: true
 
   /eslint-friendly-formatter/4.0.1:
@@ -3008,11 +3008,11 @@ packages:
       semver: 6.3.0
     dev: true
 
-  /eslint-plugin-promise/5.2.0_eslint@7.32.0:
-    resolution: {integrity: sha512-SftLb1pUG01QYq2A/hGAWfDRXqYD82zE7j7TopDOyNdU+7SvvoXREls/+PRTY17vUXzXnZA/zfnyKgRH6x4JJw==}
-    engines: {node: ^10.12.0 || >=12.0.0}
+  /eslint-plugin-promise/6.0.0_eslint@7.32.0:
+    resolution: {integrity: sha512-7GPezalm5Bfi/E22PnQxDWH2iW9GTvAlUNTztemeHb6c1BniSyoeTrM87JkC0wYdi6aQrZX9p2qEiAno8aTcbw==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
-      eslint: ^7.0.0
+      eslint: ^7.0.0 || ^8.0.0
     dependencies:
       eslint: 7.32.0
     dev: true
