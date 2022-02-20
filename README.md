@@ -11,6 +11,9 @@
 
 * Vue 3.x 版本 ｜ [Vue 2.x 版本](https://github.com/pdsuwwz/hoc-element-table/tree/vue2.0)
 
+## Screenshot
+
+<img width="1440" alt="image" src="https://user-images.githubusercontent.com/19891724/154832301-f85c48e3-57dc-4ffc-a5d8-78490bfbc484.png">
 
 ## Environment Support
 
