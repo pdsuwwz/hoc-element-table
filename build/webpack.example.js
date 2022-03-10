@@ -118,7 +118,9 @@ const webpackConfig = {
     ]
   },
   plugins: [
-    new ESLintPlugin(),
+    new ESLintPlugin({
+      emitWarning: false
+    }),
     // new webpack.HotModuleReplacementPlugin({}),
     new HtmlWebpackPlugin({
       template: './example/index.html'
