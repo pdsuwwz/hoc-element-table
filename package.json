@@ -1,6 +1,6 @@
 {
   "name": "@hoc-element/table",
-  "version": "2.0.0",
+  "version": "2.2.0",
   "main": "lib/hoc-el-table.js",
   "description": "📦  A Vue3.x Table Component built on Webpack 5 that follows the Configuration",
   "author": "Wisdom <pdsu.wwz@foxmail.com>",
