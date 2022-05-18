@@ -45,10 +45,14 @@ export default defineComponent({
     })
 
     const getAttrsValue = (item) => {
+      if (!item.attrs) {
+        item.attrs = {}
+      }
+
       const {
-        class: className,
-        style,
-        directives,
+        class: className = null,
+        style = null,
+        directives = null,
         ...attrs
       } = item.attrs
 
@@ -64,16 +68,24 @@ export default defineComponent({
       return h(
         'div',
         getCellList.value.map((cellItem) => {
-          const comp = resolveComponent(elementsMapping.value[cellItem.el])
+          const comp = resolveComponent(
+            elementsMapping.value[cellItem.el] ||
+            cellItem.el
+          )
 
           const attributes = getAttrsValue(cellItem)
           const { label, ...others } = attributes.props
           const { directives } = attributes
 
+          let onClick
+          if (cellItem.click) {
+            onClick = cellItem.click.bind(props.parent, props.row)
+          }
+
           let resultVNode = h(
             comp,
             {
-              onClick: cellItem.click.bind(props.parent, props.row),
+              onClick,
               innerHTML: label,
               ...others
             }
