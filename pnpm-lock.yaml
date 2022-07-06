@@ -34,7 +34,7 @@ specifiers:
   eslint-plugin-jsx-a11y: ^6.5.1
   eslint-plugin-node: ^11.1.0
   eslint-plugin-promise: ^5.2.0
-  eslint-plugin-vue: 9.1.1
+  eslint-plugin-vue: 9.2.0
   eslint-webpack-plugin: ^3.1.1
   file-loader: ^6.2.0
   html-webpack-plugin: ^5.5.0
@@ -84,7 +84,7 @@ devDependencies:
   eslint-plugin-jsx-a11y: 6.5.1_eslint@7.32.0
   eslint-plugin-node: 11.1.0_eslint@7.32.0
   eslint-plugin-promise: 5.2.0_eslint@7.32.0
-  eslint-plugin-vue: 9.1.1_eslint@7.32.0
+  eslint-plugin-vue: 9.2.0_eslint@7.32.0
   eslint-webpack-plugin: 3.1.1_pjwosxep3lni2cffwcje3rtr54
   file-loader: 6.2.0_webpack@5.72.1
   html-webpack-plugin: 5.5.0_webpack@5.72.1
@@ -2966,8 +2966,8 @@ packages:
       eslint: 7.32.0
     dev: true
 
-  /eslint-plugin-vue/9.1.1_eslint@7.32.0:
-    resolution: {integrity: sha512-W9n5PB1X2jzC7CK6riG0oAcxjmKrjTF6+keL1rni8n57DZeilx/Fulz+IRJK3lYseLNAygN0I62L7DvioW40Tw==}
+  /eslint-plugin-vue/9.2.0_eslint@7.32.0:
+    resolution: {integrity: sha512-W2hc+NUXoce8sZtWgZ45miQTy6jNyuSdub5aZ1IBune4JDeAyzucYX0TzkrQ1jMO52sNUDYlCIHDoaNePe0p5g==}
     engines: {node: ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^6.2.0 || ^7.0.0 || ^8.0.0
@@ -5257,7 +5257,7 @@ packages:
     dev: true
 
   /util-deprecate/1.0.2:
-    resolution: {integrity: sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=}
+    resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
 
   /utila/0.4.0:
