@@ -34,7 +34,7 @@ specifiers:
   eslint-plugin-jsx-a11y: ^6.5.1
   eslint-plugin-node: ^11.1.0
   eslint-plugin-promise: ^6.0.0
-  eslint-plugin-vue: 9.8.0
+  eslint-plugin-vue: 9.9.0
   eslint-webpack-plugin: ^3.1.1
   file-loader: ^6.2.0
   html-webpack-plugin: ^5.5.0
@@ -84,7 +84,7 @@ devDependencies:
   eslint-plugin-jsx-a11y: 6.5.1_eslint@8.30.0
   eslint-plugin-node: 11.1.0_eslint@8.30.0
   eslint-plugin-promise: 6.1.1_eslint@8.30.0
-  eslint-plugin-vue: 9.8.0_eslint@8.30.0
+  eslint-plugin-vue: 9.9.0_eslint@8.30.0
   eslint-webpack-plugin: 3.1.1_64qo4wpb7mxxlkx7dezjtjygqu
   file-loader: 6.2.0_webpack@5.72.1
   html-webpack-plugin: 5.5.0_webpack@5.72.1
@@ -1955,14 +1955,6 @@ packages:
       acorn: 8.7.1
     dev: true
 
-  /acorn-jsx/5.3.2_acorn@8.7.1:
-    resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
-    peerDependencies:
-      acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
-    dependencies:
-      acorn: 8.7.1
-    dev: true
-
   /acorn-jsx/5.3.2_acorn@8.8.1:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
@@ -2967,8 +2959,8 @@ packages:
       eslint: 8.30.0
     dev: true
 
-  /eslint-plugin-vue/9.8.0_eslint@8.30.0:
-    resolution: {integrity: sha512-E/AXwcTzunyzM83C2QqDHxepMzvI2y6x+mmeYHbVDQlKFqmKYvRrhaVixEeeG27uI44p9oKDFiyCRw4XxgtfHA==}
+  /eslint-plugin-vue/9.9.0_eslint@8.30.0:
+    resolution: {integrity: sha512-YbubS7eK0J7DCf0U2LxvVP7LMfs6rC6UltihIgval3azO3gyDwEGVgsCMe1TmDiEkl6GdMKfRpaME6QxIYtzDQ==}
     engines: {node: ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^6.2.0 || ^7.0.0 || ^8.0.0
@@ -3100,15 +3092,6 @@ packages:
       text-table: 0.2.0
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /espree/9.3.2:
-    resolution: {integrity: sha512-D211tC7ZwouTIuY5x9XnS0E9sWNChB7IYKX/Xp5eQj3nFXhqmiUDB9q27y76oFl8jTg3pXcQx/bpxMfs3CIZbA==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-    dependencies:
-      acorn: 8.7.1
-      acorn-jsx: 5.3.2_acorn@8.7.1
-      eslint-visitor-keys: 3.3.0
     dev: true
 
   /espree/9.4.1:
@@ -5302,7 +5285,7 @@ packages:
       eslint: 8.30.0
       eslint-scope: 7.1.1
       eslint-visitor-keys: 3.3.0
-      espree: 9.3.2
+      espree: 9.4.1
       esquery: 1.4.0
       lodash: 4.17.21
       semver: 7.3.7
